@@ -20,3 +20,9 @@ Content-Type: application/json
 GET http://localhost:3000/auth/authenticate
 Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImEyMzEzMzU2LWY2ZDYtNDI1NS1hYzBmLWI4ZDdlNGZmYmUyMyIsImlhdCI6MTY2ODgwMjc0NywiZXhwIjoxNjY4ODA2MzQ3fQ.X2I_tHlpBJoES_brX43EEbx4uvlIDzzMU68FJvNVsXE
 
+POST http://localhost:3000/api/posts 
+Content-Type: application/json
+
+{
+"title": "A title", "body": "A body "
+}
