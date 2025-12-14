@@ -1,4 +1,4 @@
-# WAD-Lab13-Backend
+# Backend Group AK
 
 ## Pre-requisites
 Node.js \& NPM
