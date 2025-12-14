@@ -126,13 +126,13 @@ app.get('/auth/logout', (req, res) => {
     res.status(202).clearCookie('jwt').json({ "Msg": "cookie cleared" }).send
 });
 
- app.post('/api/posts', async(req, res) => {
+app.post('/api/posts', async(req, res) => {
     try {
         console.log("a post request has arrived");
         const post = req.body;
         console.log(post);
         const newpost = await pool.query(
-            "INSERT INTO posttable(title, body) values ($1, $2)    RETURNING*", [post.title, post.body]
+            "INSERT INTO posttable(title, date,  body) values ($1, $2, $3)    RETURNING*", [post.title, post.date, post.body]
 // $1, $2, $3 are mapped to the first, second and third element of the passed array (post.title, post.body, post.urllink) 
 // The RETURNING keyword in PostgreSQL allows returning a value from the insert or update statement.
 // using "*" after the RETURNING keyword in PostgreSQL, will return everything
@@ -151,6 +151,46 @@ app.get('/api/posts', async(req, res) => {
         );
         res.json(posts.rows);
     } catch (err) {
+        console.error(err.message);
+    }
+});
+
+app.get('/api/posts/:id', async(req, res) => {
+    try {
+        const {id} = req.params;
+        console.log("a get request has arrived");
+        const posts = await pool.query(
+            "SELECT * FROM posttable WHERE id = $1", [id]
+        );
+        res.json(posts.rows[0]);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+app.put('/api/posts/:id', async(req, res) => {
+    try {
+        const {id} = req.params;
+        const post = req.body;
+        console.log("update request has arrived");
+        const updatepost = await pool.query(
+            "UPDATE posttable SET (title, date, body) = ($2, $3, $4) WHERE id = $1", [id, post.title, post.date, post.body]
+        );
+        res.json(updatepost);
+    } catch (err) {
+        console.error(err.message);
+    }
+});
+
+app.delete('/api/posts/:id', async(req, res) => {
+    try {
+        const {id} = req.params;
+        console.log("delete request has arrived");
+        const deletepost = await pool.query(
+            "DELETE FROM posttable WHERE id = $1", [id]
+        );
+        res.json(deletepost);   
+    } catch(err){
         console.error(err.message);
     }
 });

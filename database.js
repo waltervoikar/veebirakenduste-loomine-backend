@@ -41,6 +41,7 @@ const createTblQuery2 = `
     CREATE TABLE IF NOT EXISTS "posttable" (
 	    id SERIAL PRIMARY KEY,         
 	    title VARCHAR(200) NOT NULL,
+        date VARCHAR(200) NOT NULL,
 	    body VARCHAR(200) NOT NULL
     );`;
 execute(createTblQuery2).then(result => {
@@ -48,4 +49,5 @@ execute(createTblQuery2).then(result => {
         console.log('Table "posttable" is created');
     }
 });
+
 module.exports = pool;
